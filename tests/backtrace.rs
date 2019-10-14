@@ -1,4 +1,4 @@
-#![cfg(all(feature = "std", feature = "backtrace"))]
+#![cfg(all(feature = "std", feature = "backtraces"))]
 
 use snafu::{ensure, Backtrace, ErrorCompat, ResultExt, Snafu};
 

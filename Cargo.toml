@@ -27,7 +27,7 @@ all-features = true
 default = ["backtraces", "std"]
 
 # Implement the `std::error::Error` trait.
-std = ["core-error/std"]
+std = ["core-error/std", "snafu-derive/std"]
 
 # Adds the backtrace type
 backtraces = ["std", "snafu-derive/backtraces", "backtrace"]

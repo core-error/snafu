@@ -1,4 +1,4 @@
-#![cfg(feature = "backtrace")]
+#![cfg(feature = "backtraces")]
 
 use snafu::{Backtrace, ErrorCompat, ResultExt, Snafu};
 
