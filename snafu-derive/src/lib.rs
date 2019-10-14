@@ -1472,6 +1472,7 @@ impl<'a> quote::ToTokens for DisplayImpl<'a> {
 struct ErrorImpl<'a>(&'a EnumInfo);
 
 impl<'a> ErrorImpl<'a> {
+    #[cfg(feature = "std")]
     fn variants_to_description(&self) -> Vec<proc_macro2::TokenStream> {
         let enum_name = &self.0.name;
         self.0
@@ -1530,8 +1531,10 @@ impl<'a> quote::ToTokens for ErrorImpl<'a> {
         let parameterized_enum_name = &self.0.parameterized_name();
         let where_clauses: Vec<_> = self.0.provided_where_clauses();
 
+        #[cfg(feature = "std")]
         let variants_to_description = &self.variants_to_description();
 
+        #[cfg(feature = "std")]
         let description_fn = quote! {
             fn description(&self) -> &str {
                 match *self {
@@ -1540,8 +1543,12 @@ impl<'a> quote::ToTokens for ErrorImpl<'a> {
             }
         };
 
+        #[cfg(not(feature = "std"))]
+        let description_fn = quote!();
+
         let variants_to_source = &self.variants_to_source();
 
+        #[cfg(feature = "std")]
         let cause_fn = quote! {
             fn cause(&self) -> Option<&dyn snafu::Error> {
                 use snafu::AsErrorSource;
@@ -1550,6 +1557,9 @@ impl<'a> quote::ToTokens for ErrorImpl<'a> {
                 }
             }
         };
+
+        #[cfg(not(feature = "std"))]
+        let cause_fn = quote!();
 
         let source_fn = quote! {
             fn source(&self) -> Option<&(dyn snafu::Error + 'static)> {
@@ -1671,17 +1681,25 @@ impl StructInfo {
             .flat_map(|c| c.predicates.iter().map(|p| quote! { #p }))
             .collect();
 
+        #[cfg(feature = "std")]
         let description_fn = quote! {
             fn description(&self) -> &str {
                 snafu::Error::description(&self.0)
             }
         };
 
+        #[cfg(not(feature = "std"))]
+        let description_fn = quote!();
+
+        #[cfg(feature = "std")]
         let cause_fn = quote! {
             fn cause(&self) -> Option<&dyn snafu::Error> {
                 snafu::Error::cause(&self.0)
             }
         };
+
+        #[cfg(not(feature = "std"))]
+        let cause_fn = quote!();
 
         let source_fn = quote! {
             fn source(&self) -> Option<&(dyn snafu::Error + 'static)> {
