@@ -1,3 +1,5 @@
+#![cfg(feature = "std")]
+
 use snafu::{ResultExt, Snafu};
 use std::{
     fs, io,
@@ -42,7 +44,7 @@ fn example(root: impl AsRef<Path>, user_id: Option<i32>) -> Result<()> {
 
 #[test]
 fn implements_error() {
-    fn check<T: std::error::Error>() {}
+    fn check<T: snafu::Error>() {}
     check::<Error>();
     example("/some/directory/that/does/not/exist", None).unwrap_err();
 }

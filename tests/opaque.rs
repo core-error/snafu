@@ -1,3 +1,5 @@
+#![cfg(feature = "std")]
+
 mod inner {
     use snafu::{ensure, Snafu};
 
@@ -13,7 +15,7 @@ mod inner {
         Ok(value)
     }
 
-    pub fn boxed_inner(value: i32) -> Result<i32, Box<dyn std::error::Error>> {
+    pub fn boxed_inner(value: i32) -> Result<i32, Box<dyn snafu::Error>> {
         ensure!(value < 1, TooBig { count: value });
         Ok(value)
     }
@@ -35,7 +37,7 @@ mod inner {
 
 #[test]
 fn implements_error() {
-    fn check<T: std::error::Error>() {}
+    fn check<T: snafu::Error>() {}
     check::<inner::Error>();
     let e = inner::api().unwrap_err();
     assert!(e.to_string().contains("too big"));

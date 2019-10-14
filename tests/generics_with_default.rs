@@ -1,3 +1,5 @@
+#![cfg(feature = "std")]
+
 mod default_with_lifetime {
     use snafu::{AsErrorSource, Snafu};
     use std::fmt::{Debug, Display};
@@ -6,13 +8,13 @@ mod default_with_lifetime {
     pub struct ApiError<'a, S, T>(Error<'a, S, T>)
     where
         T: Debug + Display,
-        S: std::error::Error + AsErrorSource;
+        S: snafu::Error + AsErrorSource;
 
     #[derive(Debug, Snafu)]
     enum Error<'a, S = std::io::Error, T = String>
     where
         T: Display,
-        S: std::error::Error + AsErrorSource,
+        S: snafu::Error + AsErrorSource,
     {
         #[snafu(display("Boom: {}", value))]
         Boom {
@@ -27,7 +29,7 @@ mod default_with_lifetime {
 
     #[test]
     fn implements_error() {
-        fn check_bounds<T: std::error::Error>() {}
+        fn check_bounds<T: snafu::Error>() {}
         check_bounds::<Error<std::io::Error>>();
         check_bounds::<ApiError<std::io::Error, i32>>();
     }

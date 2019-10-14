@@ -46,12 +46,13 @@ mod enabling {
 
     #[test]
     fn implements_error() {
-        fn check<T: std::error::Error>() {}
+        fn check<T: snafu::Error>() {}
         check::<Error>();
         example().unwrap_err();
     }
 }
 
+#[cfg(feature = "std")]
 mod transformation {
     use super::*;
     use snafu::{ResultExt, Snafu};
@@ -71,7 +72,7 @@ mod transformation {
 
         TransformationToTraitObject {
             #[snafu(source(from(InnerError, Box::new)))]
-            source: Box<dyn std::error::Error>,
+            source: Box<dyn snafu::Error>,
         },
     }
 
@@ -88,7 +89,7 @@ mod transformation {
 
     #[test]
     fn implements_error() {
-        fn check<T: std::error::Error>() {}
+        fn check<T: snafu::Error>() {}
         check::<Error>();
         example().unwrap();
     }
@@ -104,7 +105,7 @@ mod transformation {
 
     #[test]
     fn api_implements_error() {
-        fn check<T: std::error::Error>() {}
+        fn check<T: snafu::Error>() {}
         check::<ApiError>();
         api_example().unwrap();
     }

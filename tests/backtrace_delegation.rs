@@ -1,3 +1,5 @@
+#![cfg(all(feature = "std", feature = "backtrace"))]
+
 use snafu::{ErrorCompat, ResultExt, Snafu};
 
 mod house {

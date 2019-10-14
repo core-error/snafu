@@ -128,15 +128,8 @@ generate_guide! {
 
 doc_comment::doctest!("../README.md", readme_tests);
 
-#[cfg(any(feature = "std", test))]
 #[doc(hidden)]
-pub use std::error::Error;
-
-#[cfg(not(any(feature = "std", test)))]
-mod no_std_error;
-#[cfg(not(any(feature = "std", test)))]
-#[doc(hidden)]
-pub use no_std_error::Error;
+pub use core_error::Error;
 
 /// Ensure a condition is true. If it is not, return from the function
 /// with an error.

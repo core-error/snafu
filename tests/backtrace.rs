@@ -1,6 +1,8 @@
+#![cfg(all(feature = "std", feature = "backtrace"))]
+
 use snafu::{ensure, Backtrace, ErrorCompat, ResultExt, Snafu};
 
-type AnotherError = Box<dyn std::error::Error>;
+type AnotherError = Box<dyn snafu::Error>;
 
 #[derive(Debug, Snafu)]
 enum Error {

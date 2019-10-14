@@ -42,7 +42,7 @@ fn re_private() -> Result<()> {
 
 #[test]
 fn implements_error() {
-    fn check<T: std::error::Error>() {}
+    fn check<T: snafu::Error>() {}
     check::<Error>();
     re_private().unwrap_err();
 }

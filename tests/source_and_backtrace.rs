@@ -1,3 +1,5 @@
+#![cfg(feature = "backtrace")]
+
 use snafu::{Backtrace, ErrorCompat, ResultExt, Snafu};
 
 #[derive(Debug, Snafu)]

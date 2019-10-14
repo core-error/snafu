@@ -1,6 +1,8 @@
+#![cfg(all(feature = "std", feature = "backtrace"))]
+
 use snafu::{Backtrace, ResultExt, Snafu};
 
-type BoxError = Box<dyn std::error::Error>;
+type BoxError = Box<dyn snafu::Error>;
 
 #[derive(Debug, Snafu)]
 enum Error<'a, 'x, A, Y> {
@@ -66,7 +68,7 @@ mod bounds {
 
         #[test]
         fn implements_error() {
-            fn check_bounds<T: std::error::Error>() {}
+            fn check_bounds<T: snafu::Error>() {}
             check_bounds::<Error<i32>>();
             check_bounds::<ApiError<i32>>();
         }
@@ -92,7 +94,7 @@ mod bounds {
 
         #[test]
         fn implements_error() {
-            fn check_bounds<T: std::error::Error>() {}
+            fn check_bounds<T: snafu::Error>() {}
             check_bounds::<Error<i32>>();
             check_bounds::<ApiError<i32>>();
         }

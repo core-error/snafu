@@ -24,11 +24,11 @@ enum Error {
     },
 
     BoxedTraitObjectSend {
-        source: Box<dyn std::error::Error + Send + 'static>,
+        source: Box<dyn snafu::Error + Send + 'static>,
     },
 
     BoxedTraitObjectSendSync {
-        source: Box<dyn std::error::Error + Send + Sync + 'static>,
+        source: Box<dyn snafu::Error + Send + Sync + 'static>,
     },
 }
 
@@ -38,7 +38,7 @@ fn example() -> Result<(), Error> {
 
 #[test]
 fn implements_thread_safe_error() {
-    fn check_error<E: std::error::Error>() {}
+    fn check_error<E: snafu::Error>() {}
     check_error::<InnerError>();
     check_error::<Error>();
 

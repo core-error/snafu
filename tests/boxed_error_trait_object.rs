@@ -3,7 +3,7 @@
 use snafu::{ResultExt, Snafu};
 
 mod trait_object {
-    pub type Error = Box<dyn std::error::Error + 'static>;
+    pub type Error = Box<dyn snafu::Error + 'static>;
 
     pub fn function() -> Result<i32, Error> {
         Ok(42)
@@ -11,7 +11,7 @@ mod trait_object {
 }
 
 mod trait_object_send {
-    pub type Error = Box<dyn std::error::Error + Send + 'static>;
+    pub type Error = Box<dyn snafu::Error + Send + 'static>;
 
     pub fn function() -> Result<i32, Error> {
         Ok(42)
@@ -19,7 +19,7 @@ mod trait_object_send {
 }
 
 mod trait_object_sync {
-    pub type Error = Box<dyn std::error::Error + Sync + 'static>;
+    pub type Error = Box<dyn snafu::Error + Sync + 'static>;
 
     pub fn function() -> Result<i32, Error> {
         Ok(42)
@@ -27,7 +27,7 @@ mod trait_object_sync {
 }
 
 mod trait_object_send_sync {
-    pub type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
+    pub type Error = Box<dyn snafu::Error + Send + Sync + 'static>;
 
     pub fn function() -> Result<i32, Error> {
         Ok(42)
@@ -68,7 +68,7 @@ fn example() -> Result<(), Error> {
 
 #[test]
 fn implements_error() {
-    fn check<T: std::error::Error>() {}
+    fn check<T: snafu::Error>() {}
     check::<Error>();
     example().unwrap();
 }

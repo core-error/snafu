@@ -1,3 +1,5 @@
+#![cfg(all(feature = "std", feature = "backtrace"))]
+
 use snafu::{Backtrace, OptionExt, Snafu};
 use std::collections::HashMap;
 
@@ -20,7 +22,7 @@ fn example(values: &HashMap<i32, i32>, left: i32, right: i32) -> Result<i32> {
 
 #[test]
 fn implements_error() {
-    fn check<T: std::error::Error>() {}
+    fn check<T: snafu::Error>() {}
     check::<Error>();
     example(&Default::default(), 1, 2).unwrap_err();
 }

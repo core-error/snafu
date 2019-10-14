@@ -1,3 +1,5 @@
+#![cfg(all(feature = "std", feature = "backtrace"))]
+
 use snafu::{Backtrace, Snafu};
 
 #[derive(Debug, Snafu)]
@@ -27,7 +29,7 @@ fn example() -> Result<(), Error> {
 
 #[test]
 fn implements_error() {
-    fn check<T: std::error::Error>() {}
+    fn check<T: snafu::Error>() {}
     check::<Error>();
     example().unwrap_err();
 }

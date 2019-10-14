@@ -27,7 +27,7 @@ all-features = true
 default = ["backtraces", "std"]
 
 # Implement the `std::error::Error` trait.
-std = []
+std = ["core-error/std"]
 
 # Adds the backtrace type
 backtraces = ["std", "snafu-derive/backtraces", "backtrace"]
@@ -58,3 +58,7 @@ futures01 = { version = "0.1", optional = true, default-features = false }
 futures-preview = { version = "0.3.0-alpha.16", optional = true, default-features = false }
 futures-core-preview = { version = "0.3.0-alpha.16", optional = true, default-features = false }
 pin-project = { version = "0.4", optional = true, default-features = false }
+core-error = { git = "https://github.com/core-error/core-error.git", default-features = false }
+
+[dev-dependencies]
+core-error = { git = "https://github.com/core-error/core-error.git", default-features = false, features = ["alloc"] }
